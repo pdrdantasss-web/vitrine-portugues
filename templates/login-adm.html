@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Login Administrativo</title>
+
+
+<!-- CSS -->
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', path='css/painel-adm/css/login-adm.css') }}"
+>
+
+
+</head>
+
+<body>
+
+
+<!-- ============================== -->
+<!-- LOGIN -->
+<!-- ============================== -->
+
+<main class="login-container">
+
+
+    <h1>
+        Bem-vindo
+    </h1>
+
+
+    <p>
+        Faça login para acessar o painel administrativo.
+    </p>
+
+
+    <form id="loginForm">
+
+
+        <!-- EMAIL -->
+
+        <div class="form-group">
+
+
+            <label for="email">
+                E-mail
+            </label>
+
+
+            <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="seu@email.com"
+                required
+                autocomplete="email"
+            >
+
+
+        </div>
+
+
+
+        <!-- SENHA -->
+
+        <div class="form-group">
+
+
+            <label for="password">
+                Senha
+            </label>
+
+
+            <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Digite sua senha"
+                required
+                autocomplete="current-password"
+            >
+
+
+        </div>
+
+
+
+        <!-- BOTÃO -->
+
+        <button
+            type="submit"
+            class="login-button"
+        >
+            ENTRAR NO PAINEL
+        </button>
+
+
+
+        <!-- MENSAGEM DE ERRO -->
+
+        <div
+            id="loginMessage"
+            class="message"
+        ></div>
+
+
+    </form>
+
+
+</main>
+
+
+
+<!-- ============================== -->
+<!-- JAVASCRIPT -->
+<!-- ============================== -->
+
+<script src="/static/css/painel-adm/js/login-adm.js"></script>
+
+</body>
+
+</body>
+
+</html>

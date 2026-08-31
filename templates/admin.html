@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Painel Administrativo</title>
+
+
+<!-- ============================== -->
+<!-- PROTEÇÃO DA PÁGINA -->
+<!-- ============================== -->
+
+<script>
+
+    const token =
+        localStorage.getItem(
+            "access_token"
+        );
+
+
+    if (!token) {
+
+        window.location.href =
+            "/login-admin";
+
+    }
+
+</script>
+
+
+<!-- ============================== -->
+<!-- CSS -->
+<!-- ============================== -->
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', path='css/painel-adm/css/admin.css') }}"
+>
+
+
+</head>
+
+<body>
+
+<!-- ============================== -->
+
+<!-- HEADER ADMINISTRATIVO -->
+
+<!-- ============================== -->
+
+<header class="admin-header">
+
+
+<div class="admin-logo">
+
+    ADMIN
+
+</div>
+
+
+<nav class="admin-nav">
+
+
+    <a href="#dashboard">
+
+        Dashboard
+
+    </a>
+
+
+    <a href="#produtos">
+
+        Produtos
+
+    </a>
+
+
+    <a
+        href="/login-admin"
+        id="logoutButton"
+    >
+
+        Sair
+
+    </a>
+
+
+</nav>
+
+
+</header>
+
+<!-- ============================== -->
+
+<!-- CONTAINER PRINCIPAL -->
+
+<!-- ============================== -->
+
+<main
+    class="container"
+    id="dashboard"
+>
+
+
+<!-- ============================== -->
+<!-- BOAS-VINDAS -->
+<!-- ============================== -->
+
+<section class="admin-welcome">
+
+
+    <h1>
+
+        Olá, Administrador!
+
+    </h1>
+
+
+    <p>
+
+        Cadastre e gerencie os produtos da loja.
+
+    </p>
+
+
+</section>
+
+
+<!-- ============================== -->
+<!-- FORMULÁRIO -->
+<!-- ============================== -->
+
+<section class="form-card">
+
+
+    <h2
+        class="form-title"
+        id="formTitle"
+    >
+
+        Cadastrar Produto
+
+    </h2>
+
+
+    <form
+        id="productForm"
+        enctype="multipart/form-data"
+    >
+
+
+        <!-- ============================== -->
+        <!-- ID DURANTE EDIÇÃO -->
+        <!-- ============================== -->
+
+        <input
+            type="hidden"
+            id="editingProductId"
+            value=""
+        >
+
+
+        <!-- ============================== -->
+        <!-- NOME -->
+        <!-- ============================== -->
+
+        <div class="form-group">
+
+
+            <label for="productName">
+
+                Nome do Produto
+
+            </label>
+
+
+            <input
+                type="text"
+                id="productName"
+                name="nome"
+                placeholder="Ex: Air Max 90"
+                required
+            >
+
+
+        </div>
+
+
+        <!-- ============================== -->
+        <!-- DESCRIÇÃO -->
+        <!-- ============================== -->
+
+        <div class="form-group">
+
+
+            <label for="productDescription">
+
+                Descrição
+
+            </label>
+
+
+            <textarea
+                id="productDescription"
+                name="descricao"
+                placeholder="Descreva o produto..."
+                required
+            ></textarea>
+
+
+        </div>
+
+
+        <!-- ============================== -->
+        <!-- PREÇO -->
+        <!-- ============================== -->
+
+        <div class="form-group">
+
+
+            <label for="productPrice">
+
+                Preço (R$)
+
+            </label>
+
+
+            <input
+                type="number"
+                id="productPrice"
+                name="preco"
+                step="0.01"
+                min="0"
+                placeholder="999.99"
+                required
+            >
+
+
+        </div>
+
+
+        <!-- ============================== -->
+        <!-- IMAGEM -->
+        <!-- ============================== -->
+
+        <div class="form-group">
+
+
+            <label for="productImage">
+
+                Imagem do Produto
+
+            </label>
+
+
+            <input
+                type="file"
+                id="productImage"
+                name="imagem"
+                accept=".jpg,.jpeg,.png,.webp"
+            >
+
+
+            <small class="image-help">
+
+                Formatos permitidos:
+                JPG, JPEG, PNG e WEBP.
+
+            </small>
+
+
+        </div>
+
+
+        <!-- ============================== -->
+        <!-- BOTÕES -->
+        <!-- ============================== -->
+
+        <div class="form-buttons">
+
+
+            <button
+                type="submit"
+                class="btn-submit"
+                id="submitProductButton"
+            >
+
+                CADASTRAR PRODUTO
+
+            </button>
+
+
+            <button
+                type="button"
+                id="cancelEditButton"
+                class="btn-cancel-edit"
+                hidden
+            >
+
+                CANCELAR EDIÇÃO
+
+            </button>
+
+
+        </div>
+
+
+        <!-- ============================== -->
+        <!-- MENSAGENS -->
+        <!-- ============================== -->
+
+        <div
+            id="formMessage"
+            class="message"
+        ></div>
+
+
+    </form>
+
+
+</section>
+
+
+<!-- ============================== -->
+<!-- PRODUTOS CADASTRADOS -->
+<!-- ============================== -->
+
+<section
+    class="products-section"
+    id="produtos"
+>
+
+
+    <div class="products-header">
+
+
+        <div>
+
+
+            <h2>
+
+                Produtos Cadastrados
+
+            </h2>
+
+
+            <p>
+
+                Gerencie os produtos cadastrados na loja.
+
+            </p>
+
+
+        </div>
+
+
+        <button
+            type="button"
+            id="reloadProducts"
+            class="reload-products-btn"
+        >
+
+            Atualizar
+
+        </button>
+
+
+    </div>
+
+
+    <!-- ============================== -->
+    <!-- LISTA DE PRODUTOS -->
+    <!-- ============================== -->
+
+    <div
+        id="productsList"
+        class="products-list"
+    >
+
+
+        <p class="loading-products">
+
+            Carregando produtos...
+
+        </p>
+
+
+    </div>
+
+
+</section>
+
+
+</main>
+
+<!-- ============================== -->
+
+<!-- JAVASCRIPT -->
+
+<!-- ============================== -->
+
+<script
+    src="{{ url_for('static', path='css/painel-adm/js/admin.js') }}"
+></script>
+
+<!-- ============================== -->
+
+<!-- LOGOUT -->
+
+<!-- ============================== -->
+
+<script>
+
+    const logoutButton =
+        document.getElementById(
+            "logoutButton"
+        );
+
+
+    if (logoutButton) {
+
+        logoutButton.addEventListener(
+
+            "click",
+
+            function () {
+
+                localStorage.removeItem(
+                    "access_token"
+                );
+
+            }
+
+        );
+
+    }
+
+</script>
+
+</body>
+
+</html>

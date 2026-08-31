@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>{{ produto.nome }}</title>
+
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', path='css/painel-adm/css/produto.css') }}"
+>
+
+
+</head>
+
+<body>
+
+
+<!-- HEADER -->
+
+<header class="product-header">
+
+    <a
+        href="/"
+        class="back-button"
+    >
+        ← Voltar para a vitrine
+    </a>
+
+
+    <div class="header-logo">
+        NIKE
+    </div>
+
+
+</header>
+
+
+
+<!-- PRODUTO -->
+
+<main class="product-page">
+
+
+    <!-- IMAGEM -->
+
+    <section class="product-image-container">
+
+        {% if produto.imagem %}
+
+            <img
+                src="{{ produto.imagem }}"
+                alt="{{ produto.nome }}"
+            >
+
+        {% else %}
+
+            <img
+                src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800"
+                alt="{{ produto.nome }}"
+            >
+
+        {% endif %}
+
+    </section>
+
+
+
+    <!-- INFORMAÇÕES -->
+
+    <section class="product-details">
+
+
+        <span class="product-label">
+            PRODUTO
+        </span>
+
+
+        <h1>
+            {{ produto.nome }}
+        </h1>
+
+
+        <div class="product-price">
+
+            R$ {{ "%.2f"|format(produto.preco) }}
+
+        </div>
+
+
+        <div class="product-divider"></div>
+
+
+        <div class="product-description">
+
+            <h3>
+                Sobre este produto
+            </h3>
+
+
+            <p>
+                {{ produto.descricao }}
+            </p>
+
+        </div>
+
+
+       <a
+    href="/contato?produto={{ produto.nome }}"
+    class="interest-button"
+>
+
+    Tenho interesse
+
+</a>
+
+        <p class="product-note">
+
+            Entre em contato para mais
+            informações sobre disponibilidade.
+
+        </p>
+
+
+    </section>
+
+
+</main>
+
+
+</body>
+
+</html>
